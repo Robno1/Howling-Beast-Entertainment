@@ -12,14 +12,6 @@
       color: #fff;
     }
 
-    header {
-      background-color: #1f1f1f;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
     header h1 {
       margin: 0;
       font-size: 1.8rem;
