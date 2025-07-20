@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kapus Labdajáték - Bot javítás és visszaszámláló</title>
+<style>
+  body {
+    margin: 0; font-family: Arial, sans-serif; overflow: hidden;
+    user-select: none;
+  }
+  #gameCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 2px solid #444;
+    background: transparent;
+  }
+  #menu, #endScreen, #controlInfo {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.9);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 18px;
+  }
+  button {
+    margin-top: 15px;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #e0453a;
+    color: white;
+  }
+  button:hover {
+    background: #a83228;
+  }
+</style>
+</head>
+<body>
+
+<div id="menu">
+  <h1>Kapus Labdajáték</h1>
+  <p>Válassz játék módot:</p>
+  <button id="btnSingle">Egy játékos (Bot ellen)</button>
+  <button id="btnCoop">Két játékos</button>
+</div>
+
+<div id="controlInfo" style="display:none;">
+  <div id="controlText" style="white-space: pre-line; text-align:left;"></div>
+  <button id="btnReady">Ready</button>
+</div>
+
+<canvas id="gameCanvas" width="1920" height="1080" style="display:none;"></canvas>
+
+<div id="endScreen" style="display:none;">
+  <h2 id="endMessage"></h2>
+  <button id="btnRestart">Újraindítás</button>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const menu = document.getElementById('menu');
+  const controlInfo = document.getElementById('controlInfo');
+  const controlText = document.getElementById('controlText');
+  const btnReady = document.getElementById('btnReady');
+
+  const endScreen = document.getElementById('endScreen');
+  const endMessage = document.getElementById('endMessage');
+  const btnRestart = document.getElementById('btnRestart');
+
+  const btnSingle = document.getElementById('btnSingle');
+  const btnCoop = document.getElementById('btnCoop');
+
+  const WIDTH = canvas.width;
+  const HEIGHT = canvas.height;
+
+  let gameMode = 1; // 1 = single, 2 = coop
+  let running = false;
+
+  const PLAYER_WIDTH = 60;
+  const PLAYER_HEIGHT = 150;
+  const PLAYER_SPEED = 12;
+  const GRAVITY = 0.7;
+  const JUMP_POWER = -15;
+  const MAX_JUMPS = 2;
+
+  const GOAL_WIDTH = 60;
+  const GOAL_HEIGHT = 350;
+
+  const BALL_SIZE = 50;
+
+  const BALL_SPEED = 10;
+
+  const GROUND_Y = HEIGHT - 100;
+
+  const LEFT_GOAL = {
+    x: 10,
+    y: GROUND_Y - GOAL_HEIGHT,
+    width: GOAL_WIDTH,
+    height: GOAL_HEIGHT,
+  };
+
+  const RIGHT_GOAL = {
+    x: WIDTH - GOAL_WIDTH - 10,
+    y: GROUND_Y - GOAL_HEIGHT,
+    width: GOAL_WIDTH,
+    height: GOAL_HEIGHT,
+  };
+
+  const LEFT_GOAL_WALL = {
+    x: LEFT_GOAL.x,
+    y: LEFT_GOAL.y - 80,
+    width: LEFT_GOAL.width,
+    height: 40,
+  };
+
+  const RIGHT_GOAL_WALL = {
+    x: RIGHT_GOAL.x,
+    y: RIGHT_GOAL.y - 80,
+    width: RIGHT_GOAL.width,
+    height: 40,
+  };
+
+  const bgImage = new Image();
+  bgImage.src = 'background-1.jpg';
+
+  let keysDown = {};
+
+  window.addEventListener('keydown', e => { keysDown[e.code.toLowerCase()] = true; });
+  window.addEventListener('keyup', e => { keysDown[e.code.toLowerCase()] = false; });
+
+  class Player {
+    constructor(x, y, keys, hitKeyCode, isBot = false) {
+      this.startX = x;
+      this.startY = y;
+      this.x = x;
+      this.y = y;
+      this.width = PLAYER_WIDTH;
+      this.height = PLAYER_HEIGHT;
+      this.dy = 0;
+      this.dx = 0;
+      this.score = 0;
+      this.onGround = false;
+      this.jumpCount = 0;
+      this.jumpPressed = false;
+      this.keys = keys;
+      this.hitKeyCode = hitKeyCode;
+      this.isBot = isBot;
+      this.hitPressed = false;
+      this.facing = 'right';
+      this.faceSize = 25;
+      this.rotation = 0;
+      this.isAttacking = false;
+    }
+    resetPosition() {
+      this.x = this.startX;
+      this.y = this.startY;
+      this.dy = 0;
+      this.dx = 0;
+      this.jumpCount = 0;
+      this.onGround = false;
+      this.facing = 'right';
+      this.hitPressed = false;
+      this.rotation = 0;
+      this.isAttacking = false;
+    }
+    update() {
+      if(!roundActive) return;
+
+      this.dx = 0;
+      if(!this.isBot) {
+        if(keysDown[this.keys.left]) this.dx = -PLAYER_SPEED;
+        if(keysDown[this.keys.right]) this.dx = PLAYER_SPEED;
+      }
+
+      this.x += this.dx;
+      if(this.x < 0) this.x = 0;
+      if(this.x + this.width > WIDTH) this.x = WIDTH - this.width;
+
+      if(this.dx > 0) this.facing = 'right';
+      else if(this.dx < 0) this.facing = 'left';
+
+      this.dy += GRAVITY;
+      this.y += this.dy;
+
+      if(this.y + this.height >= GROUND_Y) {
+        this.y = GROUND_Y - this.height;
+        this.dy = 0;
+        this.onGround = true;
+        this.jumpCount = 0;
+      } else {
+        this.onGround = false;
+      }
+
+      if(!this.isBot) {
+        if(keysDown[this.keys.up] && !this.jumpPressed && this.jumpCount < MAX_JUMPS) {
+          this.dy = JUMP_POWER;
+          this.jumpPressed = true;
+          this.jumpCount++;
+        }
+        if(!keysDown[this.keys.up]) {
+          this.jumpPressed = false;
+        }
+      }
+    }
+    draw() {
+      ctx.save();
+
+      if(this.isBot) {
+        ctx.translate(this.x + this.width/2, this.y + this.height/2);
+        ctx.rotate(this.rotation);
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+
+        ctx.fillStyle = '#fff';
+        let faceX = this.width/2 + 10;
+        let faceY = -this.faceSize/2;
+        ctx.fillRect(faceX, faceY, this.faceSize, this.faceSize);
+
+        ctx.restore();
+      } else {
+        ctx.fillStyle = '#3498db';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.fillStyle = '#fff';
+        let faceX;
+        if(this.facing === 'right') {
+          faceX = this.x + this.width + 10;
+        } else {
+          faceX = this.x - this.faceSize - 10;
+        }
+        let faceY = this.y + this.height/2 - this.faceSize/2;
+        ctx.fillRect(faceX, faceY, this.faceSize, this.faceSize);
+      }
+    }
+  }
+
+  class Ball {
+    constructor() {
+      this.size = BALL_SIZE;
+      this.reset();
+    }
+    reset() {
+      this.x = WIDTH / 2 - this.size/2;
+      this.y = GROUND_Y - this.size;
+      this.vx = 0;
+      this.vy = 0;
+      this.state = 'popping';
+    }
+    launch() {
+      const direction = Math.random() < 0.5 ? -1 : 1;
+      this.vx = direction * BALL_SPEED * 1.5;
+      this.vy = -BALL_SPEED * 3;
+      this.state = 'normal';
+    }
+    update() {
+      if(this.state === 'popping') return;
+
+      this.vy += GRAVITY;
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Kapufal pattanás fent
+      if(
+        this.x < LEFT_GOAL_WALL.x + LEFT_GOAL_WALL.width &&
+        this.x + this.size > LEFT_GOAL_WALL.x &&
+        this.y < LEFT_GOAL_WALL.y + LEFT_GOAL_WALL.height &&
+        this.y + this.size > LEFT_GOAL_WALL.y
+      ) {
+        if(this.vy > 0 && this.y + this.size - this.vy <= LEFT_GOAL_WALL.y) {
+          this.y = LEFT_GOAL_WALL.y - this.size;
+          this.vy = -this.vy * 0.7;
+          return;
+        }
+      }
+      if(
+        this.x < RIGHT_GOAL_WALL.x + RIGHT_GOAL_WALL.width &&
+        this.x + this.size > RIGHT_GOAL_WALL.x &&
+        this.y < RIGHT_GOAL_WALL.y + RIGHT_GOAL_WALL.height &&
+        this.y + this.size > RIGHT_GOAL_WALL.y
+      ) {
+        if(this.vy > 0 && this.y + this.size - this.vy <= RIGHT_GOAL_WALL.y) {
+          this.y = RIGHT_GOAL_WALL.y - this.size;
+          this.vy = -this.vy * 0.7;
+          return;
+        }
+      }
+
+      // Talaj pattanás
+      if(this.y + this.size >= GROUND_Y) {
+        this.y = GROUND_Y - this.size;
+        if(this.vy > 0) {
+          this.vy = -BALL_SPEED;
+        } else {
+          this.vy = 0;
+        }
+      }
+      if(this.y <= 0) {
+        this.y = 0;
+        this.vy = -this.vy;
+      }
+      if(this.x <= 0) {
+        this.x = 0;
+        this.vx = -this.vx;
+      }
+      if(this.x + this.size >= WIDTH) {
+        this.x = WIDTH - this.size;
+        this.vx = -this.vx;
+      }
+
+      for(let p of players) {
+        if(this.collidesWith(p)) {
+          if(p.isBot) {
+            if(p.isAttacking) {
+              if(!p.hitPressed) {
+                p.hitPressed = true;
+                if(p === players[0]) {
+                  this.vx = BALL_SPEED * 1.5;
+                  p.rotation = 0;
+                } else {
+                  this.vx = -BALL_SPEED * 1.5;
+                  p.rotation = Math.PI;
+                }
+                this.vy = JUMP_POWER * 0.6;
+              }
+            } else {
+              if(this.x + this.size/2 < p.x + p.width/2) {
+                this.x = p.x - this.size - 1;
+                this.vx = Math.min(this.vx, 0);
+              } else {
+                this.x = p.x + p.width + 1;
+                this.vx = Math.max(this.vx, 0);
+              }
+              this.vy = Math.min(this.vy, 0.5);
+              p.rotation = 0;
+              p.hitPressed = false;
+            }
+          } else {
+            if(keysDown[p.hitKeyCode] && !p.hitPressed && roundActive) {
+              p.hitPressed = true;
+              if(p.facing === 'right') {
+                this.vx = BALL_SPEED * 1.5;
+              } else {
+                this.vx = -BALL_SPEED * 1.5;
+              }
+              this.vy = JUMP_POWER * 0.6;
+            } else {
+              if(this.x + this.size/2 < p.x + p.width/2) {
+                this.x = p.x - this.size - 1;
+                this.vx = Math.min(this.vx, 0);
+              } else {
+                this.x = p.x + p.width + 1;
+                this.vx = Math.max(this.vx, 0);
+              }
+              this.vy = Math.min(this.vy, 0.5);
+              p.hitPressed = false;
+            }
+          }
+        } else {
+          p.hitPressed = false;
+        }
+      }
+
+      // Gól ellenőrzés
+      if(
+        this.x <= LEFT_GOAL.x + LEFT_GOAL.width &&
+        this.y + this.size >= LEFT_GOAL.y &&
+        this.y <= LEFT_GOAL.y + LEFT_GOAL.height
+      ) {
+        if(this.vx < 0 && this.x + this.size > LEFT_GOAL.x && this.y + this.size > LEFT_GOAL_WALL.y + LEFT_GOAL_WALL.height) {
+          score[1]++;
+          showGoalAndReset();
+          return;
+        }
+      }
+      if(
+        this.x + this.size >= RIGHT_GOAL.x &&
+        this.y + this.size >= RIGHT_GOAL.y &&
+        this.y <= RIGHT_GOAL.y + RIGHT_GOAL.height
+      ) {
+        if(this.vx > 0 && this.x < RIGHT_GOAL.x + RIGHT_GOAL.width && this.y + this.size > RIGHT_GOAL_WALL.y + RIGHT_GOAL_WALL.height) {
+          score[0]++;
+          showGoalAndReset();
+          return;
+        }
+      }
+    }
+    collidesWith(player) {
+      return !(
+        this.x + this.size < player.x ||
+        this.x > player.x + player.width ||
+        this.y + this.size < player.y ||
+        this.y > player.y + player.height
+      );
+    }
+    draw() {
+      ctx.fillStyle = '#f39c12';
+      ctx.beginPath();
+      ctx.arc(this.x + this.size/2, this.y + this.size/2, this.size/2, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  let players = [];
+  let bot;
+
+  function botUpdate() {
+    if(gameMode !== 1) return;
+    if(!roundActive) return;
+
+    bot = players[1];
+    let ballMidX = ball.x + ball.size / 2;
+    let botMidX = bot.x + bot.width / 2;
+
+    if(Math.abs(botMidX - ballMidX) > 10) {
+      if(botMidX < ballMidX) {
+        bot.x += PLAYER_SPEED * 0.8;
+        bot.facing = 'right';
+        bot.rotation = 0;
+      } else {
+        bot.x -= PLAYER_SPEED * 0.8;
+        bot.facing = 'left';
+        bot.rotation = Math.PI;
+      }
+      if(bot.x < 0) bot.x = 0;
+      if(bot.x + bot.width > WIDTH) bot.x = WIDTH - bot.width;
+    }
+
+    if(Math.abs(botMidX - ballMidX) < 100) {
+      bot.isAttacking = true;
+      if(bot.onGround) {
+        bot.dy = JUMP_POWER;
+      }
+    } else {
+      bot.isAttacking = false;
+    }
+
+    bot.dy += GRAVITY;
+    bot.y += bot.dy;
+    if(bot.y + bot.height >= GROUND_Y) {
+      bot.y = GROUND_Y - bot.height;
+      bot.dy = 0;
+      bot.onGround = true;
+      bot.jumpCount = 0;
+    } else {
+      bot.onGround = false;
+    }
+  }
+
+  let ball;
+  let score = [0, 0];
+
+  let countdown = 3;
+  let countdownTimer = 0;
+  const countdownInterval = 30;
+  let roundActive = false;
+  let showGoal = false;
+  let goalTimer = 0;
+
+  // --- AZ ÁLTALAD KÉRT VÁLTOZÁS IDE ---
+  let showReady = false;
+  let readyTimer = 0;
+  // ------------------------------------
+
+  function startCountdown() {
+    countdown = 3;
+    countdownTimer = countdownInterval;
+    // reseteljük a READY állapotot is
+    showReady = false;
+    readyTimer = 0;
+  }
+
+  function startGame(mode) {
+    gameMode = mode;
+    menu.style.display = 'none';
+    endScreen.style.display = 'none';
+    controlInfo.style.display = 'none';
+    canvas.style.display = 'block';
+
+    players = [];
+    players.push(new Player(200, GROUND_Y - PLAYER_HEIGHT, {left:'keya', right:'keyd', up:'keyw'}, 'space', false));
+
+    if(mode === 2) {
+      players.push(new Player(WIDTH - 200 - PLAYER_WIDTH, GROUND_Y - PLAYER_HEIGHT, {left:'arrowleft', right:'arrowright', up:'arrowup'}, 'controlright', false));
+    } else {
+      players.push(new Player(WIDTH - 200 - PLAYER_WIDTH, GROUND_Y - PLAYER_HEIGHT, {}, '', true));
+    }
+
+    bot = players[1];
+    bot.isAttacking = false;
+    bot.rotation = 0;
+
+    score = [0, 0];
+
+    ball = new Ball();
+
+    running = true;
+    startCountdown();
+
+    if(mode === 1) {
+      bot.isAttacking = true;
+    }
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  btnSingle.onclick = () => {
+    controlText.innerHTML = `Player 1:\nMozgás: W A D\nUgrás: W\nÜtés: Space\n\n\nPlayer 2 (Bot):\nMozgás: Automata\nÜtés: Automata`;
+    controlInfo.style.display = 'block';
+    menu.style.display = 'none';
+  };
+
+  btnCoop.onclick = () => {
+    controlText.innerHTML = `Player 1:\nMozgás: W A D\nUgrás: W\nÜtés: Space\n\nPlayer 2:\nMozgás: ← → ↑\nUgrás: ↑\nÜtés: Right Ctrl`;
+    controlInfo.style.display = 'block';
+    menu.style.display = 'none';
+  };
+
+  btnReady.onclick = () => {
+    controlInfo.style.display = 'none';
+    startGame(controlText.innerHTML.includes('Bot') ? 1 : 2);
+  };
+
+  btnRestart.onclick = () => {
+    endScreen.style.display = 'none';
+    menu.style.display = 'block';
+    running = false;
+    roundActive = false;
+  };
+
+  function showGoalAndReset() {
+    roundActive = false;
+    showGoal = true;
+    goalTimer = 90;
+    ball.reset();
+    players.forEach(p => p.resetPosition());
+    startCountdown();
+  }
+
+  function drawBackground() {
+    ctx.fillStyle = '#121212';
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    if(bgImage.complete) {
+      ctx.globalAlpha = 0.07;
+      ctx.drawImage(bgImage, 0, 0, WIDTH, HEIGHT);
+      ctx.globalAlpha = 1;
+    }
+
+    // Talaj
+    ctx.fillStyle = '#333';
+    ctx.fillRect(0, GROUND_Y, WIDTH, HEIGHT - GROUND_Y);
+
+    // Kapuk
+    ctx.fillStyle = '#444';
+    ctx.fillRect(LEFT_GOAL.x, LEFT_GOAL.y, LEFT_GOAL.width, LEFT_GOAL.height);
+    ctx.fillRect(RIGHT_GOAL.x, RIGHT_GOAL.y, RIGHT_GOAL.width, RIGHT_GOAL.height);
+
+    // Kapufalak
+    ctx.fillStyle = '#222';
+    ctx.fillRect(LEFT_GOAL_WALL.x, LEFT_GOAL_WALL.y, LEFT_GOAL_WALL.width, LEFT_GOAL_WALL.height);
+    ctx.fillRect(RIGHT_GOAL_WALL.x, RIGHT_GOAL_WALL.y, RIGHT_GOAL_WALL.width, RIGHT_GOAL_WALL.height);
+  }
+
+  function drawScore() {
+    ctx.fillStyle = '#e0453a';
+    ctx.font = 'bold 40px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Player 1: ' + score[0], 20, 60);
+    ctx.textAlign = 'right';
+    ctx.fillText('Player 2: ' + score[1], WIDTH - 20, 60);
+  }
+
+  // Visszaszámláló rajzolása citromsárgával és háttér sötétítés nélkül
+  function drawCountdown() {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = '#fff44f';
+    ctx.shadowBlur = 25;
+    ctx.font = 'bold 180px Arial';
+    ctx.fillStyle = '#fff44f';  // Citromsárga szín
+
+    if(countdown > 0) {
+      ctx.fillText(countdown, WIDTH / 2, HEIGHT / 2);
+    }
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    drawBackground();
+
+    if(showGoal) {
+      goalTimer--;
+      if(goalTimer <= 0) {
+        showGoal = false;
+        roundActive = false;
+        startCountdown();
+      }
+      ctx.fillStyle = '#e0453a';
+      ctx.font = 'bold 100px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('GÓL!', WIDTH / 2, HEIGHT / 2);
+    }
+
+    if(countdown > 0) {
+      // --- ITT VISSZASZÁMLÁLÓ CITROMSÁRGA ÉS NINCS SÖTÉTÍTÉS ---
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = '#fff44f';
+      ctx.shadowBlur = 25;
+      ctx.font = 'bold 180px Arial';
+      ctx.fillStyle = '#fff44f';  // Citromsárga szín
+
+      ctx.fillText(countdown, WIDTH / 2, HEIGHT / 2);
+
+      countdownTimer--;
+      if(countdownTimer <= 0) {
+        countdown--;
+        countdownTimer = countdownInterval;
+        if(countdown === 0) {
+          showReady = true;
+          readyTimer = 60; // kb. 1 másodperc 60fps-en
+        }
+      }
+    } else if (showReady) {
+      ctx.font = 'bold 120px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#e0453a'; // Ready piros szín maradhat
+      ctx.shadowColor = '#e0453a';
+      ctx.shadowBlur = 25;
+      ctx.fillText('READY', WIDTH / 2, HEIGHT / 2 + 150);
+      readyTimer--;
+      if (readyTimer <= 0) {
+        showReady = false;
+        roundActive = true;
+        ball.launch();
+        if(gameMode === 1) bot.isAttacking = true;
+      }
+    }
+
+    if(roundActive) {
+      players.forEach(p => p.update());
+      if(gameMode === 1) botUpdate();
+      ball.update();
+    }
+
+    players.forEach(p => p.draw());
+    ball.draw();
+    drawScore();
+
+    if(running) {
+      requestAnimationFrame(gameLoop);
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
