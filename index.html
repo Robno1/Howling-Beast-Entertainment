@@ -1,212 +1,466 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Howling Beast Entertainment</title>
-  <link rel="icon" href="beast.png" type="image/png">
-  <style>
-    ...
-  </style>
-</head>
-  <title>Howling Beast Entertainment</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', sans-serif; color: #eee; background: #121212; scroll-behavior: smooth; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Howling Beast Entertainment</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:
+      linear-gradient(rgba(18,18,18,0.1), rgba(18,18,18,0.1)),
+      url('alap háttér.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #e0453a;
+    line-height: 1.6;
+    padding-top: 100px;
+    text-shadow: 0 0 2px rgba(224,69,58,0.4);
+  }
+  a {
+    color: #e0453a;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+  
+  header {
+    position: fixed;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 3100px;
+    height: 110px;
+    background: url('alap.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(224, 69, 58, 0.22);
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    position: relative;
+    overflow: visible;
+  }
+
+  .header-logo {
+    height: 150px;
+    user-select: none;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #F8F8FF;
+    user-select: none;
+    text-shadow: 0 0 4px rgba(225,83,65,0.5);
+  }
+
+  nav a {
+    margin-left: 18px;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: #F8F8FF;
+    padding: 7px 16px;
+    border-radius: 14px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  nav a:hover {
+    background: #e0453a;
+    color: #fff;
+    text-shadow: none;
+  }
+
+  .section-wrapper {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    padding: 80px 0;
+    box-sizing: border-box;
+  }
+
+  .content-container {
+  position: relative; /* nagyon fontos */
+  max-width: 900px;
+  padding: 30px 20px;
+  background: url('mindegyik-ablakhoz-ami-be-az-infok-vannak.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 12px;
+  color: #f07b6e;
+}
+
+  .content-container.align-left {
+    margin-left: 10px;
+    margin-right: auto;
+  }
+
+  .content-container.align-right {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  .content-container.align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .content-container2 {
+  position: relative; /* nagyon fontos */
+  max-width: 900px;
+  padding: 30px 20px;
+  background: url('page-head__right-bg.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 12px;
+  color: #FFA91F;
+}
+
+.content-container2.align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .content-container3 {
+  position: relative; /* nagyon fontos */
+  max-width: 1000px;
+  padding: 30px 20px;
+  background: url('info frame a legelső ablakhoz.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 12px;
+  color: #FFA91F;
+}
+
+.content-container3.align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #FFFFFF;
+    border-left: 5px solid #e15341;
+    padding-left: 14px;
+    text-shadow: 0 0 4px rgba(225,83,65,0.4);
+  }
+
+  h4 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #FFA91F;
+    padding-left: 105px;
+	padding-top: -20px;
+    text-shadow: 0 0 4px rgba(225,83,65,0.4);
+  }
+
+  h3 {
+    margin: 18px 0 10px 0;
+    color: #FFA91F;
+    text-shadow: 0 0 2px rgba(191,59,47,0.3);
+  }
+
+  ul {
+    list-style-type: disc;
+    margin-left: 25px;
+    margin-bottom: 25px;
+    color: #d96a62;
+    text-shadow: 0 0 1.5px rgba(217,106,98,0.4);
+  }
+
+  p {
+    margin-bottom: 15px;
+    color: #FFA91F;
+    text-shadow: 0 0 1.5px rgba(240,123,110,0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #2a2a2a;
+    color: #FFA91F;
+    font-size: 0.9rem;
+    background: #121212;
+    text-shadow: none;
+  }
+
+  .btn-buy {
+    background: linear-gradient(135deg, #e0453a, #bf3b2f);
+    color: #fff;
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.4s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(224, 69, 58, 0.55);
+  }
+
+  .btn-buy {
+      display: inline-block;
+	  position: absolute;
+      top: 485px;
+      left: 390px;
+      background-color: #e0453a;
+      color: white;
+      padding: 16px 36px;
+      font-size: 1.3rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+	
+	.btn-buy2 {
+      display: inline-block;
+      background-color: #e0453a;
+      color: white;
+      padding: 16px 36px;
+      font-size: 1.3rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+
+  .section-image {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 0px rgba(224, 69, 58, 0.5);
+    border: none;
+    transition: transform 0.3s ease;
+  }
+
+  .section-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 28px rgba(224, 69, 58, 0.7);
+	color: #FFA91F;
+  }
+
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      height: auto;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .header-logo {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+
     nav {
-      position: fixed; top: 0; width: 100%; background: rgba(18,18,18,0.8); 
-      display: flex; justify-content: space-between; align-items: center; padding: 1em 2em; z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
-    nav .logo img {
-  height: 60px;  /* Állítható a logó mérete */
-    }
-    nav .menu a { margin: 0 1em; color: #ccc; text-decoration: none; transition: color .3s; }
-    nav .menu a:hover { color: #e0453a; }
-    header { position: relative; height: 100vh; overflow: hidden; }
-    header .slide {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-size: cover; background-position: center;
-      animation: slideAnim 20s infinite;
-    }
-    @keyframes slideAnim {
-      0%,20% {opacity:1;}
-      25%,45% {opacity:0;}
-      100% {opacity:0;}
-    }
-    header .slide:nth-child(1) { background-image:url('hero1.jpg'); animation-delay: 0s; }
-    header .slide:nth-child(2) { background-image:url('hero2.jpg'); animation-delay:5s; }
-    header .slide:nth-child(3) { background-image:url('hero3.jpg'); animation-delay:10s; }
-	
-    header .overlay { position:absolute; 
-	inset:0; background:linear-gradient(180deg,rgba(0,0,0,0.5),rgba(0,0,0,0.8));
-	display:flex; align-items:center; justify-content:center; 
-	color:#fff; 
-	text-align:center; 
-	padding:0 2rem;}
-	
-    header h1 { 
-	font-size:3em; margin-bottom:.5em; 
-	}
-	
-    header p { 
-	font-size:1.3em; 
-	}
-	
-	h2 {
-  color: #e0453a;  //* vagy bármilyen más színkód, név is lehet pl. red *//
-}
-	
-.contact-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 2rem;
-}
 
-#contact form {
-  flex: 1 1 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  max-width: 500px;
-}
+    nav a {
+      margin-left: 0;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+    }
 
-.contact-info {
-  flex: 1 1 250px;
-  color: #ccc;
-  font-size: 1.1em;
-  line-height: 1.6;
-}
+    .content-container {
+      padding: 20px 15px;
+    }
 
-.contact-info h3 {
-  color: #00e5ff;
-  margin-bottom: 0.5em;
-}
+    h2, h4 {
+      font-size: 1 rem;
+      padding-left: 10px !important;
+    }
+
+    .btn-buy {
+      font-size: 2.5rem;
+      padding: 50px 50px;
+    }
 	
-    section { padding:4rem 2rem; max-width:1200px; margin:auto; }
-    .games { display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
-    .game-card { background:#1e1e1e; border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.7); transition: transform .3s; }
-    .game-card:hover { transform:translateY(-5px); }
-    .game-card img { width:100%; height:200px; object-fit:cover; }
-    .game-card .info { padding:1em; }
-    .game-card h3 { margin-bottom:.5em; color:#e0453a; }
-    .news-list { display:flex; gap:1rem; overflow-x:auto; padding-bottom:1rem; }
-    .news-item { flex:0 0 300px; background:#1e1e1e; padding:1rem; border-radius:6px; }
-    .news-item h4 { margin-bottom:.5em; }
-    #contact form { display:flex; flex-direction:column; gap:1em; max-width:500px; }
-    #contact input, #contact textarea { padding:.8em; border:none; border-radius:4px; }
-    #contact button { padding:.8em; border:none; background:#e0453a; color:#121212; border-radius:4px; font-weight:bold; cursor:pointer; }
-	#kuldesGomb {
-  padding: 1.2em 2.5em;
-  font-size: 1.3em;
- }
- .gomb {
-  display: inline-block;
-  padding: 1em 2em;
-  background-color: #e0453a;
-  color: #121212;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 1.5em;
-  font-weight: bold;
-}
-.gomb:hover {
-  background-color: #00bcd4;
-}
-    footer { background:#111; text-align:center; padding:2rem; font-size:.9em; color:#777; }
-    /* Snap scroll */
-    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
-    section, header { scroll-snap-align: start; }
-	
-  </style>
+	 .btn-buy2 {
+      font-size: 1.5rem;
+      padding: 50px 50px;
+    }
+
+    .section-image {
+      max-height: 200px;
+    }
+
+    iframe {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    .video-wrapper {
+      padding-bottom: 56.25%;
+    }
+  }
+</style>
 </head>
 <body>
-  <nav>
-    <div class="logo">
-  <img src="beast.png" alt="KONC Studio logó" />
-</div>
-    <div class="menu">
-	  <a href="#game">About Games</a>
-      <a href="kapcsolat.html">Play game</a>
-      <a href="#about">About us</a>
-      <a href="#news">Video</a>
-      <a href="#contact">Contact us</a>
-    </div>
-  </nav>
-
   <header>
-    <div class="slide"><img src="https://cdna.artstation.com/p/assets/images/images/072/949/242/large/rob-15.jpg?1708563799.jpg"></div>
-    <div class="slide"><img src="https://cdna.artstation.com/p/assets/images/images/079/908/938/large/rob-4.jpg?1726138580.jpg"></div>
-    <div class="slide"><img src="https://cdna.artstation.com/p/assets/images/images/078/019/362/large/rob-2.jpg?1720981898.jpg"></div>
-    <div class="overlay">
-      <div>
-        <h1>"If you want to play a good game"</h1>
-		<button class="gomb" onclick="window.location.href='https://mega.nz/file/xPknDCbA#bYPg4I42vZi8OA4rKpAS9EzPNXtx6TbhbwTfVFtkQrw'">
- CLICK HERE
-</button>
-</button>
-      </div>
-    </div>
+    <img src="beast.png" alt="The War Within Logo" class="header-logo" />
+    <nav>
+      <a href="Contact us.html"">Contac Us</a>
+      <a href="#buy">Support Us</a>
+    </nav>
   </header>
-  
-  <section id="news">
-    <h2>Video</h2>
-    <section class="video">
-  <iframe width="760"
-          height="515"
-		  src="https://www.youtube.com/embed/37Xyi_FD3xs?si=seehXQ2dSRzCAzRT" 
-		  title="YouTube video player" 
-		  frameborder="0" 
-		  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-		  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</section>
-  </section>
 
-  <section id="games">
-    <h2>About game</h2>
-    <div class="games">
-      <div class="game-card"><img src="https://cdnb.artstation.com/p/assets/images/images/077/935/933/large/rob-7.jpg?1720730979.jpg"><div 
-	  class="info"><h3>2D Open World</h3><p>A 2D open-world game with freely explorable areas — if you see a path, you can follow it. Discover a world full of adventures and secrets waiting to be uncovered.
-</p></div></div>
-      <div class="game-card"><img src="https://cdnb.artstation.com/p/assets/images/images/074/052/459/large/rob-8.jpg?1711288506.jpg"><div 
-	  class="info"><h3>Hack and Slash</h3><p>Use your fists in battle! If you're the kind of person who likes to handle things bare-handed without a weapon, you can do that — and even power up your hands and feet to become as strong as a true kung fu master.
-</p></div></div>
-      <div class="game-card"><img src="https://cdna.artstation.com/p/assets/images/images/072/949/242/large/rob-15.jpg?1708563799.jpg"><div 
-	  class="info"><h3>Life Managment</h3><p>Sometimes gardening is a great way to relax — and it’s also an excellent source of food and income. On your farm, you can grow food for your own table, or even build a business out of it. It’s all up to you.
-</p></div></div>
+  <main>
+   <div class="content-container3 align-center" style="height: 650px;">
+
+      <!-- Cím bal felső sarokban -->
+      
+	  
+	  <iframe 
+			style="position: absolute; bottom: 200px; right: 100px; width: 300px; width: 780px; height: 370px;"
+			src="https://www.youtube.com/embed/37Xyi_FD3xs?si=PY5GLpTtR0shkf9j" 
+			title="YouTube video player"
+			frameborder="0" allow="accelerometer;
+			autoplay;
+			clipboard-write; 
+			encrypted-media; 
+			gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+	  
+
+      <!-- Kép jobbra lent -->
+     
+		  
+		  <h4 style="position: absolute; top: 436px; left: 120px;">If you wanna try the game!</h4>
+
+      <!-- Helyesen megnyitott <div> -->
+           <div ="position: absolute; top: 500px; left: 120px; z-index: 10;">
+  <a href="https://mega.nz/file/xPknDCbA#bYPg4I42vZi8OA4rKpAS9EzPNXtx6TbhbwTfVFtkQrw" 
+     class="btn-buy" 
+     target="_blank" 
+     rel="noopener noreferrer">
+    CLICK HERE
+  </a>
+</div>
+      </section>
+    </div>
+
+    <div class="section-wrapper" style="background-image: url('rob-8.png');">
+  <section id="story">
+    <div class="content-container align-left" style="height: 650px;">
+
+      <!-- Cím bal felső sarokban -->
+      <h2 style="position: absolute; top: 70px; left: 80px;">Penalty Gameplay</h2>
+
+      <!-- Kép jobbra lent -->
+      <img 
+        src="Penalty-DEMO-trailer.gif" 
+        alt="Khaz Algar - Earthen" 
+        class="section-image" 
+        style="position: absolute; bottom: 100px; right: 120px; width: 300px; width: 680px; height: 290px;"
+      />
+
+      <!-- Szöveg középtájon -->
+      <p style="position: absolute; top: 124px; left: 80px; width: 680px;">
+        Explore a magical 2D fantasy world where the action never stops!
+This open-world action RPG comes to life with unique, hand-drawn FBF animation and challenges your reflexes with a dynamic real-time combat system.
+Fight, grow, explore – the world is yours to conquer!
+      </p>
+      
     </div>
   </section>
+</div>
 
-  <section id="about">
-    <h2>About us</h2>
-    <p>My name is ROB, and I’m a passionate solo indie game developer working under my newly founded studio, Howling Beast Entertainment. For over 11 years, I’ve been dedicated to bringing my dream of creating a truly unique video game to life.
+    <div class="section-wrapper" style="background-image: url('rob-9.png');">
+  <section id="story">
+    <div class="content-container align-right" style="height: 650px;">
 
-Currently, I’m developing a 2D open-world RPG that offers not only a fresh visual style but also original gameplay mechanics never seen before. My goal is to build a world that’s exciting, immersive, and unforgettable—whether you're fighting, exploring, or experiencing the story.
+      <!-- Cím bal felső sarokban -->
+      <h2 style="position: absolute; top: 70px; left: 80px;">Creat own hero</h2>
 
-Every aspect of the game—from the art and animation to the coding and design—is crafted entirely by me.
-I'm always open to ideas, suggestions, and feedback that can help make this game an even more special experience for players around the world.</p>
-  </section>
+      <!-- Kép jobbra lent -->
+      <img 
+        src="character selection sketch 1.jpg" 
+        alt="Khaz Algar - Earthen" 
+        class="section-image" 
+        style="position: absolute; bottom: 100px; right: 120px; width: 300px; width: 680px; height: 290px;"
+      />
 
-  </section>
-
-  <section id="contact">
-  <h2>Contact us</h2>
-  <div class="contact-container">
-    
-    <div class="contact-info">
-      <h3></h3>
-      <p></p>
-      <p></p>
-      <p>✉️ howlingbeastinfo@gmail.com</p>
+      <!-- Szöveg középtájon -->
+      <p style="position: absolute; top: 124px; left: 80px; width: 680px;">
+        At the start of your journey, you must choose: will you play as a male or female hero?
+Your choice affects more than just appearance – each gender has unique strengths.
+The male character is physically stronger, excelling in melee combat, while the female character is quicker and smarter, offering advantages in magic and traps.
+Choose wisely – your path depends on it!
+      </p>
+      
     </div>
-  </div>
-</section>
+  </section>
+</div>
+
+    <div class="section-wrapper" style="background-image: url('rob-10.png');">
+  <section id="story">
+    <div class="content-container align-left" style="height: 650px;">
+
+      <!-- Cím bal felső sarokban -->
+      <h2 style="position: absolute; top: 70px; left: 80px;">Awsome game mechanics</h2>
+
+      <!-- Kép jobbra lent -->
+      <img 
+        src="Képernyőkép 2025-06-29 113409.png" 
+        alt="Khaz Algar - Earthen" 
+        class="section-image" 
+        style="position: absolute; bottom: 100px; right: 120px; width: 300px; width: 680px; height: 290px;"
+      />
+
+      <!-- Szöveg középtájon -->
+      <p style="position: absolute; top: 124px; left: 80px; width: 680px;">
+        This game breaks the mold with completely custom systems you won’t find anywhere else!
+Mix and match armor pieces freely to shape both your character’s look and abilities.
+The unique weapon system lets you discover your own combat style, while the hand-crafted fight mechanics make every battle thrilling and unpredictable.
+Tactics, style, and freedom – all in your hands.
+      </p>
+      
+    </div>
+  </section>
+</div>
+
+    <div class="section-wrapper">
+      <section id="buy">
+        <div class="content-container2 align-center">
+          <h2> Support us</h2>
+          <p>Be first who support us in thie hard work, wee need your help to this fight</p>
+           <script type="text/javascript" 
+		  src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+		  data-name="bmc-button" 
+		  data-slug="howlingbeap"
+		  data-color="#FFDD00" 
+		  data-emoji="" 
+		  data-font="Cookie" 
+		  data-text="Buy me a coffee" 
+		  data-outline-color="#000000" 
+		  data-font-color="#000000" 
+		  data-coffee-color="#ffffff" ></script>
+        </div>
+      </section>
+    </div>
+  </main>
 
   <footer>
-    &copy; 2025 Howling Beast Entertainment
+    <p>© 2025 Howling Beast Entertainment. All rights reserved.</p>
   </footer>
 </body>
 </html>
+
