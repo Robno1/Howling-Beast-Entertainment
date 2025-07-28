@@ -259,86 +259,148 @@
   }
   <!-- Mobilon beállitani, hogy nézzen ki a kép -->
   @media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-  }
+    /* Header módosítások mobilon */
+    header {
+      flex-direction: column;
+      height: auto;
+      padding: 10px 20px;
+      text-align: center;
+      top: 0; /* fix pozíciót felülre */
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-  header {
-    position: dinamic !important;
-    top: 1px !important;
-    left: auto !important;
-    transform: none !important;
-    width: 100% !important;
-    height: auto !important;
-    padding: 10px 20px;
-    text-align: center;
-    background-color: #1a1a1a;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    z-index: 999;
-  }
+    .header-logo {
+      height: 60px;
+      margin-bottom: 10px;
+    }
 
-  .content-container {
-    margin-top: 20px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
 
-  .image-container img {
-	position: dinamic !important;
-    left: 100px !important;
-    top: 100px !important;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
+    nav a {
+      margin-left: 0;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+    }
 
-  h1, h2, h3 {
-    text-align: center;
-    font-size: 1.2rem !important;
-  }
+    /* Tartalom konténerek */
+    .content-container,
+    .content-container2,
+    .content-container3 {
+      max-width: 95%;
+      padding: 15px 10px;
+      background-size: contain;
+      background-position: center top;
+      border-radius: 8px;
+      margin: 0 auto 30px auto;
+      position: relative !important;
+      height: auto !important;
+    }
 
-  p {
-    font-size: 1.0rem !important;
-    margin-bottom: 5px !important;
-    width: 100% !important;
-    position: dinamic !important;
-    left: 1px !important;
-    top: 100px !important;
-    box-sizing: border-box;
-    text-align: justify;
-    padding: 0 10px;
-  }
+    /* Általános cím méretek */
+    h2 {
+      font-size: 1.4rem !important;
+      padding-left: 10px !important;
+      border-left-width: 3px !important;
+      margin-bottom: 10px !important;
+    }
 
-  .button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-  }
+    h4 {
+      font-size: 1.6rem !important;
+      padding-left: 10px !important;
+      margin-bottom: 15px !important;
+      position: static !important;
+      padding-top: 0 !important;
+      text-align: center;
+    }
 
-  .button-container button {
-    width: 90%;
-    padding: 10px;
-    font-size: 1rem;
-  }
+    p {
+      font-size: 1rem !important;
+      margin-bottom: 15px !important;
+      width: 100% !important;
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      box-sizing: border-box;
+      text-align: justify;
+      padding: 0 10px;
+    }
 
-  footer {
-    position: static !important;
-    bottom: auto !important;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    background-color: #121212;
-    color: #fff;
+    ul {
+      margin-left: 20px !important;
+      margin-bottom: 20px !important;
+    }
+
+    /* Képek */
+    .section-image {
+      max-height: 200px !important;
+      width: 100% !important;
+      position: static !important;
+      margin-bottom: 20px;
+    }
+
+    .section-image:hover {
+      transform: none !important;
+      box-shadow: none !important;
+      color: inherit !important;
+    }
+
+    /* Iframe videó */
+    iframe {
+      position: static !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: 250px !important;
+      margin-bottom: 15px !important;
+      border-radius: 12px;
+    }
+
+    /* Gombok */
+    .btn-buy {
+      position: static !important;
+      display: block;
+      width: 80% !important;
+      max-width: 320px;
+      margin: 20px auto 40px auto !important;
+      padding: 16px 0 !important;
+      font-size: 1.5rem !important;
+      box-shadow: 0 4px 12px rgba(224, 69, 58, 0.55) !important;
+      text-align: center;
+    }
+
+    .btn-buy2 {
+      width: 80% !important;
+      max-width: 320px;
+      padding: 16px 0 !important;
+      font-size: 1.3rem !important;
+      margin: 1rem auto !important;
+      display: block;
+      text-align: center;
+    }
+
+    /* Általános pozíciók mobilon */
+    /* Az abszolút pozíciót levesszük, hogy a tartalom szépen lefelé folyjon */
+
+    /* Az abszolút pozíciók eltávolítása inline style-ból nem oldható meg CSS-sel,  
+       de a position: static !important a lényeg */
+
+    /* Section-wrapper padding csökkentése */
+    .section-wrapper {
+      padding: 40px 10px !important;
+    }
+
+    /* Footer */
+    footer {
+      font-size: 0.8rem !important;
+      padding: 10px 5px !important;
+    }
   }
-}
 </style>
 </head>
 <body>
