@@ -7,6 +7,29 @@
 <link rel="icon" href="beast.png" type="image/png">
 <style>
   /* Reset */
+  
+  #preloader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #121212;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#preloader img {
+  width: 150px;  /* méret állítható */
+  margin-bottom: 20px;
+}
+
+#preloader p {
+  font-size: 1.5rem;
+  color: #FFA91F;
+  font-weight: bold;
+}
   * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
@@ -355,7 +378,7 @@
     padding: 10px 24px;
     font-size: 2rem;
     text-align: center;
-    left: 60px !important;
+    left: 150px !important;
     top: 300px !important;
   }
 
@@ -368,6 +391,12 @@
 </style>
 </head>
 <body>
+<body>
+  <div id="preloader">
+    <img src="beast.png" alt="Loading...">
+    <p>Loading...</p>
+  </div>
+
   <header>
     <img src="beast.png" alt="The War Within Logo" class="header-logo" />
     <nav>
@@ -477,5 +506,12 @@
   <footer>
     <p>© 2025 Howling Beast Entertainment. All rights reserved.</p>
   </footer>
+  <script>
+  window.addEventListener("load", function() {
+    const loader = document.getElementById("preloader");
+    loader.style.opacity = "0";
+    setTimeout(() => loader.style.display = "none", 500);
+  });
+</script>
 </body>
 </html>
