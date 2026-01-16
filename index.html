@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>HOWLING BEAST ENTERTAINMENT</title>
+<link rel="icon" href="beast.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Segoe UI,Arial
+}
+
+body{
+    background:radial-gradient(circle at top,#2a1838,#0b0812);
+    color:#eee;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+}
+
+img,video{
+    max-width:100%;
+    display:block;
+}
+
+/* ================= NAV ================= */
+header{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(10,5,20,.85);
+    backdrop-filter:blur(6px);
+    z-index:1000;
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+    padding:16px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* ================= LOGÓ ================= */
+.logo img{
+    width: 80px;
+    height: 80px;   
+    object-fit: contain;
+    display: block;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+/* ================= NAV LINKEK ================= */
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.nav-links a{
+    font-weight:600;
+    opacity:.85;
+}
+
+.nav-links a:hover{
+    color:#ff3b3b;
+}
+
+.buy{
+    background:#c01919;
+    padding:8px 16px;
+    border-radius:20px;
+}
+
+/* ================= DROPDOWN ================= */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    cursor: pointer;
+    font-weight: 600;
+    opacity: .85;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(10,5,20,.95);
+    min-width: 200px;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 10px 0;
+    z-index:1001;
+}
+
+.dropdown-content a {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #eee;
+}
+
+.dropdown-content a img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255,59,59,.1);
+    color:#ff3b3b;
+}
+
+/* Dropdown láthatóvá tétele desktopon */
+.dropdown-content.show {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ================= HAMBURGER ================= */
+.hamburger{
+    display:none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.hamburger span{
+    display:block;
+    height:4px;
+    width:100%;
+    background:#fff;
+    border-radius:2px;
+}
+
+/* ================= HERO ================= */
+.hero{
+    min-height:100vh;
+    padding-top:90px;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+}
+
+/* HERO VIDEO */
+.hero-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:.35;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.hero-content{
+    position:relative;
+    z-index:10;
+    text-align:center;
+    padding:120px 24px;
+}
+
+.hero h1{
+    font-size:92px;
+    letter-spacing:4px;
+}
+
+.hero-buttons a{
+    display:inline-block;
+    margin:10px;
+    padding:24px 38px;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.red{background:#c01919}
+.dark{background:#222}
+
+/* ================= ICON BUTTONS ================= */
+.icon-row{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    margin-top:40px;
+}
+
+.icon-btn{
+    width:86px;
+    height:86px;
+    border-radius:30%;
+    background:#c01919;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#fff;
+}
+
+/* ================= SECTIONS ================= */
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:100px 24px;
+}
+
+.feature{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    margin-bottom:120px;
+    align-items:center;
+}
+
+.feature img{
+    border-radius:16px;
+    background:;
+}
+
+.feature h2{
+    font-size:36px;
+    margin-bottom:16px;
+}
+
+/* ================= CHARACTER ================= */
+.character{
+    background:linear-gradient(to right,#3D0000);
+}
+
+.character-inner{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+}
+
+.character img{
+    border-radius:20px;
+}
+
+/* ================= MEDIA ================= */
+.media-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:20px;
+}
+
+.media-grid img{
+    height:180px;
+    object-fit:cover;
+    border-radius:12px;
+    background:#222;
+}
+
+/* ================= DISCORD ================= */
+.discord{
+    background:radial-gradient(circle,#2b153f,#120815);
+    text-align:center;
+    padding:100px 24px;
+}
+
+.discord a{
+    display:inline-block;
+    margin:10px;
+    padding:16px 32px;
+    background:#750202;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    background:#050307;
+    text-align:center;
+    padding:40px;
+    opacity:.6;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:900px){
+    .feature,
+    .character-inner{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .nav-links{
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: rgba(10,5,20,.95);
+        width: 200px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 10px;
+        display: none;
+    }
+
+    .nav-links a{
+        margin-left: 0;
+    }
+
+    .hamburger{
+        display:flex;
+    }
+
+    .nav-links.show{
+        display: flex;
+    }
+
+    .dropdown-content {
+        position: relative;
+        top: 0;
+        background: transparent;
+        padding: 0;
+        display: none;
+    }
+
+    .dropdown-content.show {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+        <div class="logo">
+            <img src="beast.png" alt="Dual Force">
+        </div>
+
+        <!-- Hamburger ikon mobilra -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Nav linkek -->
+        <div class="nav-links">
+            <a href="#">Home</a>
+
+            <!-- Games dropdown -->
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Games ▾</a>
+                <div class="dropdown-content">
+                    <a href="https://store.steampowered.com/app/4271510/Dual_Force/"><img src="incon.png" alt="Game 1"> Dual Force</a>
+                    <a href="https://store.steampowered.com/app/2853710/Penalty/"><img src="penalty.png" alt="Game 2"> Penalty</a>
+                </div>
+            </div>
+
+            <a href="https://buymeacoffee.com/howlingbeap">Support us</a>
+            <a href="https://store.steampowered.com/app/4271510/Dual_Force/" class="buy">Buy Now</a>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+   <video class="hero-video"
+       autoplay
+       muted
+       loop
+       playsinline
+       src="Penalty DEMO trailer.mp4">
+   </video>
+
+    <div class="hero-content">
+        <h1>WE MADE GAMES!</h1>
+
+        <div class="hero-buttons">
+            <a class="red" href="https://store.steampowered.com/app/4271510/Dual_Force/">TRY OUT!</a>
+        </div>
+<!-- HERO <a href="#" class="icon-btn"><img src="incon.png"></a> -->
+        <div class="icon-row">
+            
+        </div>
+    </div>
+</div>
+
+<section>
+    <div class="feature">
+        <div>
+            <h2>Dual Force</h2>
+            <p>Heroes. One World. One Chance.
+
+Dual Force is a fast-paced 2D fantasy action-adventure game where two heroes stand together against a world slowly being consumed by darkness. Play solo or in local co-op, and rely on precise combat, quick reflexes, and constant progression to survive.
+
+An unknown and destructive force threatens all life. Your mission is to join the Dual Force, grow stronger with every battle, and push back the evil before the world is lost forever.
+
+Key Features
+
+Fast, arcade-style combat – responsive controls, fluid movement, and intense action
+
+Two playable heroes – distinct abilities and complementary combat styles
+
+Local co-op gameplay – play together on a shared or split screen
+
+Dark fantasy world – dangerous enemies, atmospheric environments, and heroic battles
+
+Roguelike elements – progression, new abilities, and fresh challenges every run
+
+Full controller support – a smooth, console-like experience on PC
+
+Dual Force is built for players who enjoy challenge, tight action gameplay, and cooperative experiences. A world on the brink of collapse awaits—and it will not wait for you.</p>
+        </div>
+        <img src="incon.png">
+		 <div>
+            <h2>Penalty</h2>
+            <p>Every Choice Has a Consequence
+
+Penalty is a 2D open-world fantasy action RPG where the world does not simply react to your actions — it judges them. Explore a dangerous universe, fight powerful enemies, grow stronger, and shape your own path, knowing that every decision comes at a cost.
+
+At its core, Penalty is built around freedom and consequences. Use weapons, magic, and equipment to customize your character while navigating a living, open world where there is rarely a clear line between right and wrong.
+
+Key Features
+
+2D open-world RPG – free exploration, hidden areas, and dangerous encounters
+
+Action-focused combat system – combine weapons and magic in dynamic battles
+
+Deep character progression and customization – armor, gear, and abilities
+
+Single-player and multiplayer modes – co-op and PvP support
+
+Consequence-driven gameplay – your choices influence the world and how it responds
+
+Full controller support – smooth gameplay on both keyboard and controller
+
+Penalty is designed for players who value meaningful decisions, deep RPG systems, and true player agency. There are no actions without consequences — only the paths you choose to walk.</p>
+        </div>
+        <img src="penalty.png">
+		 </div>
+
+</section>
+
+<div class="character">
+<section class="character-inner">
+    <img src="én-új.png">
+    <div>
+        <h2>ABOUT ME</h2>
+        <p>Every Choice Has a Consequence
+
+Howling Beast Entertainment is 
+not a massive team, but rather the
+ passionate workshop of a solo creator. 
+ As a solo developer, I have been walking 
+ the path of video game development for over a 
+ decade – from programming to art, from 2D and 3D 
+ animation to illustration, I have learned and built 
+ every part of the process on my own. For me, game development
+ is not just work, it is a calling. Every project I create aims 
+ to bring to life the worlds born from my imagination and to offer
+ players something truly unique and memorable.
+ Hand-drawn animations, custom combat systems, deep stories,
+ and the freedom to explore are all core elements of what I make.
+ Even though I work alone, my vision is always big: to create games that leave an impression, inspire, and provide 
+ unforgettable experiences. This journey has been full of challenges, but each obstacle has only strengthened my belief that creativity and
+ perseverance know no limits. To me, Howling Beast Entertainment is more than just a 
+ name – it is a promise to always give my very best, and to deliver works born from passion and honesty to the players.</p>
+    </div>
+</section>
+</div>
+
+<!-- Hamburger ikon mobilra -<section>
+    <h2 style="margin-bottom:40px">Official Media</h2>
+    <div class="media-grid">
+        <img src="incon.png">
+        <img src="incon.png">
+        <img src="incon.png">
+        <img src="incon.png">
+    </div>
+</section> -->
+
+<div class="discord">
+    <h2>Join and Support us</h2>
+   
+    <a href="https://buymeacoffee.com/howlingbeap">Buy me a Coffe</a>
+    <a href="#">Join Twitter</a>
+    <a href="#">Join Youtube</a>
+	<a href="#">Facebook</a>
+</div> -->
+
+<footer>
+    © 2026 Howling Beast Entertainment
+</footer>
+
+<script>
+// Hamburger mobil menü
+function toggleMenu(){
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('show');
+}
+
+// Dropdown kattintás (desktop + mobil)
+document.querySelectorAll('.dropbtn').forEach(btn => {
+    btn.addEventListener('click', function(e){
+        e.preventDefault();
+        const dropdownContent = this.nextElementSibling;
+
+        // Bezárjuk a többi dropdown-t
+        document.querySelectorAll('.dropdown-content').forEach(dc => {
+            if(dc !== dropdownContent) dc.classList.remove('show');
+        });
+
+        // Toggle az aktuális
+        dropdownContent.classList.toggle('show');
+    });
+});
+
+// Kattintás máshova bezárja a dropdown-t
+document.addEventListener('click', function(e){
+    document.querySelectorAll('.dropdown-content').forEach(dc => {
+        if(!dc.parentElement.contains(e.target)){
+            dc.classList.remove('show');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
