@@ -11,7 +11,7 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Segoe UI,Arial
+    font-family:Segoe UI,Arial;
 }
 
 body{
@@ -20,27 +20,28 @@ body{
     overflow-x:hidden;
 }
 
+/* ===== GLOBAL FIX STACKING ===== */
+header, .nav, .hamburger{
+    position:relative;
+    z-index:999999;
+}
+
 a{
     text-decoration:none;
     color:inherit;
-    cursor:pointer;
 }
 
-img,video{
-    max-width:100%;
-    display:block;
-}
-
-/* ================= NAV ================= */
+/* ================= HEADER ================= */
 header{
     position:fixed;
     top:0;
+    left:0;
     width:100%;
-    background:rgba(10,5,20,.85);
-    backdrop-filter:blur(6px);
-    z-index:9999;
+    background:rgba(10,5,20,.95);
+    backdrop-filter:blur(10px);
 }
 
+/* ================= NAV ================= */
 .nav{
     max-width:1200px;
     margin:auto;
@@ -52,18 +53,12 @@ header{
 
 /* LOGO */
 .logo img{
-    width: 80px;
-    height: 80px;   
-    object-fit: contain;
-    display: block;
+    width:80px;
+    height:80px;
+    object-fit:contain;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-/* NAV LINKS */
+/* LINKS */
 .nav-links{
     display:flex;
     align-items:center;
@@ -72,94 +67,72 @@ header{
 
 .nav-links a{
     font-weight:600;
-    opacity:.85;
+    opacity:.9;
 }
 
-.nav-links a:hover{
-    color:#ff3b3b;
-}
-
+/* BUY BUTTON */
 .buy{
     background:#F5B027;
     padding:8px 16px;
     border-radius:20px;
 }
 
-/* DROPDOWN */
-.dropdown {
-    position: relative;
-}
-
-.dropbtn {
-    cursor: pointer;
-    font-weight: 600;
-    opacity: .85;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: rgba(10,5,20,.95);
-    min-width: 200px;
-    flex-direction: column;
-    border-radius: 8px;
-    padding: 10px 0;
-    z-index:1001;
-}
-
-.dropdown-content a {
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    color: #eee;
-}
-
-.dropdown-content a img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-}
-
-.dropdown-content.show {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* HAMBURGER */
-.hamburger{
-    display:none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 22px;
-    cursor: pointer;
-    z-index:10000;
+/* ================= DROPDOWN ================= */
+.dropdown{
     position:relative;
 }
 
+.dropbtn{
+    cursor:pointer;
+    font-weight:600;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background:rgba(10,5,20,.98);
+    min-width:200px;
+    flex-direction:column;
+    border-radius:8px;
+    padding:10px 0;
+}
+
+.dropdown-content a{
+    padding:8px 16px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.dropdown-content.show{
+    display:flex;
+}
+
+/* ================= HAMBURGER ================= */
+.hamburger{
+    display:none;
+    flex-direction:column;
+    justify-content:space-between;
+    width:30px;
+    height:22px;
+    cursor:pointer;
+    z-index:1000000;
+}
+
 .hamburger span{
-    display:block;
     height:4px;
-    width:100%;
     background:#fff;
     border-radius:2px;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 .hero{
     min-height:100vh;
     padding-top:90px;
     position:relative;
     overflow:hidden;
-    isolation:isolate;
 }
 
 .hero-video{
@@ -169,131 +142,70 @@ header{
     height:100%;
     object-fit:cover;
     opacity:.35;
-    z-index:-10;
+    z-index:0;
     pointer-events:none;
 }
 
 .hero-content{
     position:relative;
-    z-index:10;
+    z-index:2;
     text-align:center;
     padding:120px 24px;
 }
 
 .hero h1{
     font-size:92px;
-    letter-spacing:4px;
 }
 
-.hero-buttons a{
-    display:inline-block;
-    margin:10px;
-    padding:24px 38px;
-    border-radius:30px;
-    font-weight:bold;
+/* ================= SECTIONS ================= */
+section{
+    position:relative;
+    z-index:2;
 }
 
-.red{background:#F5B027}
-.dark{background:#222}
-
-/* FEATURE */
-.feature{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:60px;
-    margin-bottom:120px;
-    align-items:center;
-}
-
-.feature h2{
-    font-size:36px;
-    margin-bottom:16px;
-}
-
-/* CHARACTER */
-.character{
-    background:linear-gradient(to right,#3D0000);
-}
-
-.character-inner{
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:50px;
-    align-items:center;
-}
-
-.character img{
-    border-radius:20px;
-}
-
-/* DISCORD */
+/* ================= DISCORD ================= */
 .discord{
-    background:radial-gradient(circle,#2b153f,#120815);
+    position:relative;
+    z-index:2;
     text-align:center;
     padding:100px 24px;
+    background:radial-gradient(circle,#2b153f,#120815);
 }
 
-.discord a{
-    display:inline-block;
-    margin:10px;
-    padding:16px 32px;
-    background:#F5B027;
-    border-radius:30px;
-    font-weight:bold;
-}
-
-/* FOOTER */
-footer{
-    background:#050307;
-    text-align:center;
-    padding:40px;
-    opacity:.6;
-}
-
-/* RESPONSIVE */
+/* ================= MOBILE ================= */
 @media(max-width:900px){
-
-    .hero h1{
-        font-size:48px;
-    }
-
-    .nav-links{
-        position:absolute;
-        font-size:28px;
-        top:70px;
-        right:0;
-        background:rgba(10,5,20,.95);
-        width:100%;
-        max-width:300px;
-        flex-direction:column;
-        align-items:flex-start;
-        padding:20px;
-        gap:20px;
-        display:none;
-    }
 
     .hamburger{
         display:flex;
+    }
+
+    .nav-links{
+        position:fixed;
+        top:70px;
+        right:0;
+        width:260px;
+        height:auto;
+        background:rgba(10,5,20,.98);
+        flex-direction:column;
+        align-items:flex-start;
+        padding:20px;
+        gap:18px;
+        display:none;
+        z-index:999998;
     }
 
     .nav-links.show{
         display:flex;
     }
 
-    .dropdown-content{
-        position:relative;
-        top:0;
-        background:transparent;
-        padding:0;
-        display:none;
+    .hero h1{
+        font-size:48px;
     }
 
-    .dropdown-content.show{
-        display:flex;
-        flex-direction:column;
-        gap:10px;
+    .dropdown-content{
+        position:relative;
+        background:transparent;
+        padding:0;
     }
 }
 </style>
@@ -305,7 +217,7 @@ footer{
     <div class="nav">
 
         <div class="logo">
-            <img src="game-logo.png" alt="Logo">
+            <img src="game-logo.png">
         </div>
 
         <div class="hamburger" onclick="toggleMenu()">
@@ -315,73 +227,43 @@ footer{
         </div>
 
         <div class="nav-links">
+
             <a href="index.html">Home</a>
 
             <div class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Games ▾</a>
+                <div class="dropbtn">Games ▾</div>
                 <div class="dropdown-content">
-                    <a href="https://store.steampowered.com/app/4271510/Dual_Force/"><img src="incon.png"> Dual Force</a>
-                    <a href="https://store.steampowered.com/app/2853710/Penalty/"><img src="penalty.png"> Penalty</a>
-                    <a href="FCB WEB.html"><img src="game-logo.png"> FCB</a>
+                    <a href="#"><img src="incon.png" width="40">Dual Force</a>
+                    <a href="#"><img src="penalty.png" width="40">Penalty</a>
+                    <a href="#"><img src="game-logo.png" width="40">FCB</a>
                 </div>
             </div>
 
-            <a href="https://buymeacoffee.com/howlingbeap">Support us</a>
-            <a href="https://store.steampowered.com/app/4834710/FootBall_Card_Battle/" class="buy">Buy Now</a>
-        </div>
+            <a href="#">Support us</a>
+            <a class="buy" href="#">Buy Now</a>
 
+        </div>
     </div>
 </header>
 
 <div class="hero">
-   <video class="hero-video" autoplay muted loop playsinline
-       src="Football Card Battle - Official Trailer (1).mp4">
-   </video>
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="Football Card Battle - Official Trailer (1).mp4">
+    </video>
 
     <div class="hero-content">
         <h1>FOOTBALL CARD BATTLE</h1>
-
-        <div class="hero-buttons">
-            <a class="red" href="https://store.steampowered.com/app/4835970/FootBall_Card_Battle_Demo/">TRY OUT!</a>
-        </div>
     </div>
 </div>
 
 <section>
-    <div class="feature">
-        <div>
-            <h2>FOOTBALL CARD BATTLE</h2>
-            <p>Heroes. One World. One Chance...</p>
-        </div>
-        <img src="game-logo.png">
-    </div>
+    <h2>FOOTBALL CARD BATTLE</h2>
+    <p>Game description here...</p>
 </section>
-
-<div class="character">
-<section class="character-inner">
-    <div>
-        <h2>GAMEPLAY</h2>
-        <iframe width="560" height="315"
-            src="https://www.youtube.com/embed/qdGRlmSY13o"
-            frameborder="0" allowfullscreen>
-        </iframe>
-    </div>
-
-    <p>THE GAME...</p>
-</section>
-</div>
 
 <div class="discord">
-    <h2>Join and Support us</h2>
-    <a href="https://buymeacoffee.com/howlingbeap">Buy me a Coffee</a>
-    <a href="https://x.com/Howlingbeastent">Twitter</a>
-    <a href="https://www.youtube.com/@HowlingBeastEntertainment">YouTube</a>
-    <a href="https://www.tiktok.com/@howling.beast.ent">TikTok</a>
+    <h2>Join us</h2>
 </div>
-
-<footer>
-    © 2026 Howling Beast Entertainment
-</footer>
 
 <script>
 function toggleMenu(){
@@ -389,23 +271,21 @@ function toggleMenu(){
 }
 
 document.querySelectorAll('.dropbtn').forEach(btn=>{
-    btn.addEventListener('click', function(e){
-        e.preventDefault();
-        const menu = this.nextElementSibling;
+    btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const menu = btn.nextElementSibling;
 
-        document.querySelectorAll('.dropdown-content').forEach(dc=>{
-            if(dc !== menu) dc.classList.remove('show');
+        document.querySelectorAll('.dropdown-content').forEach(d=>{
+            if(d !== menu) d.classList.remove('show');
         });
 
         menu.classList.toggle('show');
     });
 });
 
-document.addEventListener('click', function(e){
-    document.querySelectorAll('.dropdown-content').forEach(dc=>{
-        if(!dc.parentElement.contains(e.target)){
-            dc.classList.remove('show');
-        }
+document.addEventListener('click', ()=>{
+    document.querySelectorAll('.dropdown-content').forEach(d=>{
+        d.classList.remove('show');
     });
 });
 </script>
