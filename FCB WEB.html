@@ -11,37 +11,35 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Segoe UI,Arial;
+    font-family:Segoe UI,Arial
 }
 
 body{
     background:radial-gradient(circle at top,#2a1838,#0b0812);
     color:#eee;
-    overflow-x:hidden;
-}
-
-/* ===== GLOBAL FIX STACKING ===== */
-header, .nav, .hamburger{
-    position:relative;
-    z-index:999999;
 }
 
 a{
     text-decoration:none;
     color:inherit;
+    cursor:pointer;
 }
 
-/* ================= HEADER ================= */
-header{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    background:rgba(10,5,20,.95);
-    backdrop-filter:blur(10px);
+img,video{
+    max-width:100%;
+    display:block;
 }
 
 /* ================= NAV ================= */
+header{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(10,5,20,.85);
+    backdrop-filter:blur(6px);
+    z-index:1000;
+}
+
 .nav{
     max-width:1200px;
     margin:auto;
@@ -51,14 +49,20 @@ header{
     align-items:center;
 }
 
-/* LOGO */
+/* ================= LOGÓ ================= */
 .logo img{
-    width:80px;
-    height:80px;
-    object-fit:contain;
+    width: 80px;
+    height: 80px;   
+    object-fit: contain;
+    display: block;
 }
 
-/* LINKS */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+/* ================= NAV LINKEK ================= */
 .nav-links{
     display:flex;
     align-items:center;
@@ -67,10 +71,13 @@ header{
 
 .nav-links a{
     font-weight:600;
-    opacity:.9;
+    opacity:.85;
 }
 
-/* BUY BUTTON */
+.nav-links a:hover{
+    color:#ff3b3b;
+}
+
 .buy{
     background:#F5B027;
     padding:8px 16px;
@@ -78,51 +85,73 @@ header{
 }
 
 /* ================= DROPDOWN ================= */
-.dropdown{
-    position:relative;
+.dropdown {
+    position: relative;
 }
 
-.dropbtn{
-    cursor:pointer;
-    font-weight:600;
+.dropbtn {
+    cursor: pointer;
+    font-weight: 600;
+    opacity: .85;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.dropdown-content{
-    display:none;
-    position:absolute;
-    top:100%;
-    left:0;
-    background:rgba(10,5,20,.98);
-    min-width:200px;
-    flex-direction:column;
-    border-radius:8px;
-    padding:10px 0;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(10,5,20,.95);
+    min-width: 200px;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 10px 0;
+    z-index:1001;
 }
 
-.dropdown-content a{
-    padding:8px 16px;
-    display:flex;
-    gap:10px;
-    align-items:center;
+.dropdown-content a {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #eee;
 }
 
-.dropdown-content.show{
-    display:flex;
+.dropdown-content a img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255,59,59,.1);
+    color:#ff3b3b;
+}
+
+/* Dropdown láthatóvá tétele desktopon */
+.dropdown-content.show {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* ================= HAMBURGER ================= */
 .hamburger{
     display:none;
-    flex-direction:column;
-    justify-content:space-between;
-    width:30px;
-    height:22px;
-    cursor:pointer;
-    z-index:1000000;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
 }
 
 .hamburger span{
+    display:block;
     height:4px;
+    width:100%;
     background:#fff;
     border-radius:2px;
 }
@@ -133,8 +162,10 @@ header{
     padding-top:90px;
     position:relative;
     overflow:hidden;
+    isolation:isolate;
 }
 
+/* HERO VIDEO */
 .hero-video{
     position:absolute;
     inset:0;
@@ -142,70 +173,183 @@ header{
     height:100%;
     object-fit:cover;
     opacity:.35;
-    z-index:0;
+    z-index:-1;
     pointer-events:none;
 }
 
 .hero-content{
     position:relative;
-    z-index:2;
+    z-index:10;
     text-align:center;
     padding:120px 24px;
 }
 
 .hero h1{
     font-size:92px;
+    letter-spacing:4px;
+}
+
+.hero-buttons a{
+    display:inline-block;
+    margin:10px;
+    padding:24px 38px;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.red{background:#F5B027}
+.dark{background:#222}
+
+/* ================= ICON BUTTONS ================= */
+.icon-row{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    margin-top:40px;
+}
+
+.icon-btn{
+    width:86px;
+    height:86px;
+    border-radius:30%;
+    background:#c01919;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#fff;
 }
 
 /* ================= SECTIONS ================= */
 section{
-    position:relative;
-    z-index:2;
+    max-width:1200px;
+    margin:auto;
+    padding:100px 24px;
+}
+
+.feature{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    margin-bottom:120px;
+    align-items:center;
+}
+
+.feature img{
+    border-radius:16px;
+    background:;
+}
+
+.feature h2{
+    font-size:36px;
+    margin-bottom:16px;
+}
+
+/* ================= CHARACTER ================= */
+.character{
+    background:linear-gradient(to right,#3D0000);
+}
+
+.character-inner{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+}
+
+.character img{
+    border-radius:20px;
+}
+
+/* ================= MEDIA ================= */
+.media-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:20px;
+}
+
+.media-grid img{
+    height:180px;
+    object-fit:cover;
+    border-radius:12px;
+    background:#222;
 }
 
 /* ================= DISCORD ================= */
 .discord{
-    position:relative;
-    z-index:2;
+    background:radial-gradient(circle,#2b153f,#120815);
     text-align:center;
     padding:100px 24px;
-    background:radial-gradient(circle,#2b153f,#120815);
 }
 
-/* ================= MOBILE ================= */
+.discord a{
+    display:inline-block;
+    margin:10px;
+    padding:16px 32px;
+    background:#F5B027;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    background:#050307;
+    text-align:center;
+    padding:40px;
+    opacity:.6;
+}
+
+/* ================= RESPONSIVE ================= */
 @media(max-width:900px){
-
-    .hamburger{
-        display:flex;
-    }
-
-    .nav-links{
-        position:fixed;
-        top:70px;
-        right:0;
-        width:260px;
-        height:auto;
-        background:rgba(10,5,20,.98);
-        flex-direction:column;
-        align-items:flex-start;
-        padding:20px;
-        gap:18px;
-        display:none;
-        z-index:999998;
-    }
-
-    .nav-links.show{
-        display:flex;
+    .feature,
+    .character-inner{
+        grid-template-columns:1fr;
     }
 
     .hero h1{
         font-size:48px;
     }
 
-    .dropdown-content{
-        position:relative;
-        background:transparent;
-        padding:0;
+    .nav-links{
+        position: absolute;
+		font-size:48px;
+        top: 70px;
+        right: 0;
+        background: rgba(10,5,20,.95);
+        width: 400px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 30px;
+        display: none;
+    }
+
+    .nav-links a{
+        margin-left: 0;
+    }
+
+    .hamburger{
+        display:flex;
+    }
+
+    .nav-links.show{
+        display: flex;
+    }
+
+    .dropdown-content {
+        position: relative;
+        top: 0;
+        background: transparent;
+        padding: 0;
+        display: none;
+    }
+
+    .dropdown-content.show {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 }
 </style>
@@ -215,77 +359,181 @@ section{
 
 <header>
     <div class="nav">
-
         <div class="logo">
-            <img src="game-logo.png">
+            <img src="game-logo.png" alt="Dual Force">
         </div>
 
+        <!-- Hamburger ikon mobilra -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
+        <!-- Nav linkek -->
         <div class="nav-links">
-
             <a href="index.html">Home</a>
 
+            <!-- Games dropdown -->
             <div class="dropdown">
-                <div class="dropbtn">Games ▾</div>
+                <a href="#" class="dropbtn">Games ▾</a>
                 <div class="dropdown-content">
-                    <a href="#"><img src="incon.png" width="40">Dual Force</a>
-                    <a href="#"><img src="penalty.png" width="40">Penalty</a>
-                    <a href="#"><img src="game-logo.png" width="40">FCB</a>
+                    <a href="https://store.steampowered.com/app/4271510/Dual_Force/"><img src="incon.png" alt="Game 1"> Dual Force</a>
+                    <a href="https://store.steampowered.com/app/2853710/Penalty/"><img src="penalty.png" alt="Game 2"> Penalty</a>
+					<a href="FCB WEB.html"><img src="game-logo.png" alt="Game 3"> FCB</a>
                 </div>
             </div>
+			
+			 <!--<div class="dropdown">
+                <a href="#" class="dropbtn">Comics ▾</a>
+                <div class="dropdown-content">
+                    <a href="comic manadger.html"><img src="incon.png" alt="Game 1"> Dual Force</a>
+                </div>
+            </div>-->
 
-            <a href="#">Support us</a>
-            <a class="buy" href="#">Buy Now</a>
-
+            <a href="https://buymeacoffee.com/howlingbeap">Support us</a>
+            <a href="https://store.steampowered.com/app/4834710/FootBall_Card_Battle/" class="buy">Buy Now</a>
         </div>
     </div>
 </header>
 
+<!-- HERO -->
 <div class="hero">
-    <video class="hero-video" autoplay muted loop playsinline>
-        <source src="Football Card Battle - Official Trailer (1).mp4">
-    </video>
+   <video class="hero-video"
+       autoplay
+       muted
+       loop
+       playsinline
+       src="Football Card Battle - Official Trailer (1).mp4">
+   </video>
 
     <div class="hero-content">
         <h1>FOOTBALL CARD BATTLE</h1>
+
+        <div class="hero-buttons">
+            <a class="red" href="https://store.steampowered.com/app/4835970/FootBall_Card_Battle_Demo/">TRY OUT!</a>
+        </div>
+<!-- HERO <a href="#" class="icon-btn"><img src="incon.png"></a> -->
+        <div class="icon-row">
+            
+        </div>
     </div>
 </div>
 
 <section>
-    <h2>FOOTBALL CARD BATTLE</h2>
-    <p>Game description here...</p>
+    <div class="feature">
+        <div>
+            <h2>FOOTBAL CARD BATTLE</h2>
+            <p>Heroes. One World. One Chance.
+
+This game is a unique blend of football and card-based strategy, where two players compete against each other in real time.
+
+The goal is simple: score 5 goals before your opponent. But the path to victory is anything but.
+
+During the match, you use cards to build tactics, strengthen your players, and gain the upper hand on the field. Every decision counts—if you run out of cards or your players become exhausted and ineffective, you can quickly lose control of the match.
+
+Each team consists of 6 players on the field:
+5 outfield players and 1 goalkeeper.
+That’s a total of 12 players competing at the same time.
+
+The gameplay is enhanced by special magic cards that:
+
+temporarily or permanently boost player stats
+
+grant unique abilities
+
+provide tactical advantages in critical moments
+
+The right strategy, timing, and smart card usage will determine who scores the 5th goal—and wins the match.</p>
+        </div>
+        <img src="game-logo.png">
+		 <div>
+            
+
 </section>
 
+<!--<div class="character">
+<section class="character-inner">
+    <div>
+        <h2>GAMEPLAY</h2>
+        <iframe width="560" 
+			height="315" 
+			src="https://www.youtube.com/embed/qdGRlmSY13o?si=NCI_QqaStdKel5FJ" 
+			title="YouTube video player" 
+			frameborder="0" 
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+			referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div><p>THE GAME.
+
+⚽ A football game like you’ve never seen before! 🃏🔥
+
+In this video we’re introducing our brand new upcoming game — a unique football card game built around a fresh and exciting concept you probably haven’t experienced before. Combine strategy, fast-paced action, and powerful cards in a completely new way!
+
+Watch the video to get a first look at the gameplay, style, and the world we’re creating. 👀
+
+If you enjoyed what you saw, make sure to subscribe and follow the project, because:
+
+🎮 A playable demo is coming soon
+☀️ The full game is planned to release this summer
+🚀 And there’s still a lot more to reveal!
+</p>
+			
+    </div>
+</section>
+</div>-->
+
+<!-- Hamburger ikon mobilra -<section>
+    <h2 style="margin-bottom:40px">Official Media</h2>
+    <div class="media-grid">
+        <img src="incon.png">
+        <img src="incon.png">
+        <img src="incon.png">
+        <img src="incon.png">
+    </div>
+</section> -->
+
 <div class="discord">
-    <h2>Join us</h2>
-</div>
+    <h2>Join and Support us</h2>
+   
+    <a href="https://buymeacoffee.com/howlingbeap">Buy me a Coffe</a>
+    <a href="https://x.com/Howlingbeastent">Join Twitter</a>
+    <a href="https://www.youtube.com/@HowlingBeastEntertainment">Join Youtube</a>
+	<a href="https://www.tiktok.com/@howling.beast.ent">TIKTOK</a>
+</div> -->
+
+<footer>
+    © 2026 Howling Beast Entertainment
+</footer>
 
 <script>
+// Hamburger mobil menü
 function toggleMenu(){
-    document.querySelector('.nav-links').classList.toggle('show');
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('show');
 }
 
-document.querySelectorAll('.dropbtn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const menu = btn.nextElementSibling;
+// Dropdown kattintás (desktop + mobil)
+document.querySelectorAll('.dropbtn').forEach(btn => {
+    btn.addEventListener('click', function(e){
+        e.preventDefault();
+        const dropdownContent = this.nextElementSibling;
 
-        document.querySelectorAll('.dropdown-content').forEach(d=>{
-            if(d !== menu) d.classList.remove('show');
+        // Bezárjuk a többi dropdown-t
+        document.querySelectorAll('.dropdown-content').forEach(dc => {
+            if(dc !== dropdownContent) dc.classList.remove('show');
         });
 
-        menu.classList.toggle('show');
+        // Toggle az aktuális
+        dropdownContent.classList.toggle('show');
     });
 });
 
-document.addEventListener('click', ()=>{
-    document.querySelectorAll('.dropdown-content').forEach(d=>{
-        d.classList.remove('show');
+// Kattintás máshova bezárja a dropdown-t
+document.addEventListener('click', function(e){
+    document.querySelectorAll('.dropdown-content').forEach(dc => {
+        if(!dc.parentElement.contains(e.target)){
+            dc.classList.remove('show');
+        }
     });
 });
 </script>
