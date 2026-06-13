@@ -84,6 +84,14 @@ header{
     border-radius:20px;
 }
 
+.video iframe{
+    width:100%;
+    max-width:560px;
+    aspect-ratio:16 / 9;
+    height:auto;
+    border-radius:12px;
+}
+
 /* ================= DROPDOWN ================= */
 .dropdown {
     position: relative;
@@ -452,35 +460,41 @@ The right strategy, timing, and smart card usage will determine who scores the 5
 
 </section>
 
-<!--<div class="character">
-<section class="character-inner">
-    <div>
-        <h2>GAMEPLAY</h2>
-        <iframe width="560" 
-			height="315" 
-			src="https://www.youtube.com/embed/qdGRlmSY13o?si=NCI_QqaStdKel5FJ" 
-			title="YouTube video player" 
-			frameborder="0" 
-			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-			referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-			</div><p>THE GAME.
+<div class="character">
+    <section class="character-inner">
 
-⚽ A football game like you’ve never seen before! 🃏🔥
+        <div class="video">
+            <h2>GAMEPLAY</h2>
 
-In this video we’re introducing our brand new upcoming game — a unique football card game built around a fresh and exciting concept you probably haven’t experienced before. Combine strategy, fast-paced action, and powerful cards in a completely new way!
+            <iframe
+                src="https://www.youtube.com/embed/qdGRlmSY13o"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
 
-Watch the video to get a first look at the gameplay, style, and the world we’re creating. 👀
+        <div class="text">
+            <p>
+                THE GAME.
 
-If you enjoyed what you saw, make sure to subscribe and follow the project, because:
+                ⚽ A football game like you’ve never seen before! 🃏🔥
 
-🎮 A playable demo is coming soon
-☀️ The full game is planned to release this summer
-🚀 And there’s still a lot more to reveal!
-</p>
-			
-    </div>
-</section>
-</div>-->
+                In this video we’re introducing our brand new upcoming game — a unique football card game built around a fresh and exciting concept you probably haven’t experienced before. Combine strategy, fast-paced action, and powerful cards in a completely new way!
+
+                Watch the video to get a first look at the gameplay, style, and the world we’re creating. 👀
+
+                If you enjoyed what you saw, make sure to subscribe and follow the project, because:
+
+                🎮 A playable demo is coming soon
+                ☀️ The full game is planned to release this summer
+                🚀 And there’s still a lot more to reveal!
+            </p>
+        </div>
+
+    </section>
+</div>
 
 <!-- Hamburger ikon mobilra -<section>
     <h2 style="margin-bottom:40px">Official Media</h2>
@@ -540,3 +554,4 @@ document.addEventListener('click', function(e){
 
 </body>
 </html>
+
